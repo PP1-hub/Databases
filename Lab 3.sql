@@ -51,11 +51,12 @@ SELECT ID, name, dept_name                                              --e
 FROM instructor
 WHERE dept_name = 'Biology' or dept_name = 'Philosophy' or dept_name = 'Music'
 
-SELECT name, year
-FROM instructor
-WHERE name not in (SELECT name
+SELECT instructor.name, instructor.ID,
+FROM instructor, teaches
+WHERE instructor.ID = teaches.ID
+      and instructor.name not in (SELECT instructor.name
                    FROM instructor, teaches
-                   WHERE instructor.id = teaches.id  and year = 2017);   --f
+                   WHERE instructor.id = teaches.id  and teaches.year = 2017);   --f
 
 --TASK 3
 
