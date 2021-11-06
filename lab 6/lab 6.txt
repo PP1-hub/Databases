@@ -1,0 +1,79 @@
+SELECT * FROM dealer JOIN client c on dealer.id = c.dealer_id;              --task1 a
+
+SELECT c.id, c.name, s.id, city, priority, date, amount, d.id, d.name       --task1 b
+FROM dealer d
+FULL JOIN client c on d.id = c.dealer_id
+FULL JOIN sell s on d.id = s.dealer_id and c.id = s.client_id;
+
+SELECT * FROM dealer INNER JOIN client  on dealer.location = client.city;   --task1 c
+
+SELECT sell.id, sell.amount, client.name, client.city                       --task1 d
+FROM sell inner join client on sell.client_id = client.id
+WHERE sell.amount >= 100 and sell.amount <= 500;
+
+SELECT d.name, count(d.id)                                                  --task1 e
+FROM dealer d
+FULL JOIN client c on d.id = c.dealer_id
+GROUP BY d.name;
+
+SELECT d.name, c.id, c.name, charge, city                                   --task1 f
+FROM dealer d
+FULL JOIN client c on d.id = c.dealer_id;
+
+SELECT c.id, c.city, c.name, d.name, charge                                 --task1 g
+FROM client c
+FULL JOIN dealer d on d.id = c.dealer_id
+WHERE charge > 0.12;
+
+SELECT c.name, s.id, s.amount, d.name, city, charge                         --task1 h
+FROM client c
+FULL JOIN sell s on c.id = s.client_id
+FULL JOIN dealer d on d.id = c.dealer_id;
+
+SELECT c.name, c.priority, d.name, s.id, s.amount                           --task1 i
+FROM dealer d
+LEFT JOIN client c on c.dealer_id = d.id
+LEFT JOIN sell s on c.id = s.client_id
+WHERE priority IS NOT NULL and s.amount > 2000;
+
+create view each_date AS                                                     --task2 a
+    SELECT date, count(c.id), avg(amount), sum(amount)
+FROM sell
+LEFT JOIN client c on c.id = sell.client_id
+GROUP BY date;
+
+create view top_five_days as                                                  --task2 b
+    SELECT date, amount
+    FROM sell
+ORDER BY amount DESC limit 5;
+
+create view each_dealer as                                                    --task2 c
+    SELECT d.name, count(s.id), avg(amount), sum(amount)
+FROM dealer d
+LEFT JOIN sell s on d.id = s.dealer_id
+GROUP BY d.name;
+
+create view dealers_earns as                                                 --task2 d
+    SELECT d.location, sum(amount), sum(amount) * (charge)
+FROM dealer d
+LEFT JOIN sell s on d.id = s.dealer_id
+GROUP BY d.location, charge;
+
+create view each_dealer_location as                                         --task2 e
+    SELECT d.location, count(s.id), sum(amount),avg(amount)
+FROM dealer d
+LEFT JOIN sell s on d.id = s.dealer_id
+GROUP BY d.location;
+
+create view each_city as                                                   --task2 f
+    SELECT c.city, count(s.id), sum(amount), avg(amount)
+FROM client c
+LEFT JOIN sell s on c.id = s.client_id
+GROUP BY c.city;
+
+create view city_expenses as                                              --task2 g 
+    SELECT c.city, count(s.id), sum(amount)
+FROM client c
+JOIN sell s on c.id = s.client_id
+JOIN dealer d on s.dealer_id = d.id and c.city = d.location
+GROUP BY city;
