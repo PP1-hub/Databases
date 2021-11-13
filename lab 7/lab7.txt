@@ -1,0 +1,117 @@
+
+--TASK1
+--how can we store large-object types?
+-- a) The BLOB(binary large object)- data type is used to store large amounts of binary data.
+--    BLOB values can be converted to VARBINARY.
+-- b) The CLOB(character large object)- data type is used to store large amounts of 7-bit ASCII character data.
+--    CLOB values can be converted to VARCHAR.
+
+--TASK2
+--what is the difference between privilege, role and user?
+--  Role - are created by users and are used to group together privileges or other roles.
+--  Privilege - is a right to execute a particular type of SQL statement.
+--  User - is someone who can connect to a database and optionally can own objects in the database.
+
+-- a) create accountant, administrator, support roles and grant appropriate privileges
+CREATE ROLE accountant WITH login;
+CREATE ROLE administrator WITH ADMIN postgres;
+CREATE ROLE support WITH login;
+
+GRANT SELECT,INSERT,UPDATE (status), DELETE ON transactions TO accountant;
+GRANT SELECT on customers TO support;
+GRANT SELECT, UPDATE(currency,"limit") on accounts TO support;
+GRANT ALL PRIVILEGES on customers,accounts TO administrator;
+
+-- b) create some users and assign them roles
+CREATE USER Anar WITH ROLE administrator;
+CREATE USER Ainur WITH ROLE support;
+CREATE USER Gaukhar WITH ROLE accountant;
+
+--c) give to some of them permission to grant roles to other users
+ALTER USER Anar WITH CREATEDB CREATEROLE;
+ALTER USER Ainur WITH CREATEDB CREATEROLE;
+ALTER USER Gaukhar WITH CREATEDB CREATEROLE;
+
+--d) revoke some privilege from particular user
+REVOKE GRANT OPTION FOR SELECT ON accounts FROM Gaukhar;
+
+--TASK3
+-- add appropriate constraints
+--b) add not null constraints
+ALTER TABLE customers
+    ALTER COLUMN name SET NOT NULL,
+    ALTER COLUMN birth_date SET NOT NULL;
+
+ALTER TABLE accounts
+    ALTER COLUMN customer_id SET NOT NULL,
+    ALTER COLUMN currency SET NOT NULL,
+    ALTER COLUMN balance SET DEFAULT 0,
+    ALTER COLUMN balance SET NOT NULL;
+
+ALTER TABLE transactions
+    ALTER COLUMN date SET NOT NULL,
+    ALTER COLUMN src_account SET NOT NULL,
+    ALTER COLUMN dst_account SET NOT NULL,
+    ALTER COLUMN amount SET NOT NULL,
+    ALTER COLUMN status SET NOT NULL;
+
+--TASK 5
+--create indexes:
+--a) index so that each customer can only have one account of one currency
+CREATE UNIQUE INDEX uni_index
+ON accounts (currency, customer_id);
+
+--b) index for searching transactions by currency and balance
+CREATE INDEX index1
+ON transactions (src_account, dst_account);
+
+--TASK 6
+--write SQL transactions
+--a) create transaction with "init" status
+BEGIN TRANSACTION;
+INSERT INTO  transactions VALUES (4, CURRENT_DATE, 'NT10204', 'AB10203', 100, 'init');
+SELECT *
+FROM transactions;
+
+DELETE FROM transactions
+WHERE id = 4;
+
+--b) increase balance for destination account and decrease for source account
+UPDATE accounts
+SET balance = balance - 100
+WHERE account_id = 'AB10203';
+SAVEPOINT my_savepoint;
+
+UPDATE accounts
+SET balance = balance + 100
+WHERE account_id = 'DK12000';
+
+ROLLBACK TO my_savepoint;
+ UPDATE accounts SET balance = balance + 100 --c)f in source account balance becomes below limit, then make rollback
+ WHERE account_id = 'NK90123';
+SELECT account_id, customer_id, balance
+FROM accounts;
+
+--d) update transaction with appropriate status(commit or rollback)
+UPDATE transactions
+SET status = 'committed'
+WHERE id = 4;
+
+COMMIT transaction;
+END transaction;
+
+ROLLBACK transaction;
+END transaction;
+
+
+
+
+
+
+
+
+
+
+
+
+
