@@ -20,6 +20,8 @@ INSERT INTO customer (id, address, name, phone) VALUES (119, '201 Pyramid Valley
 INSERT INTO customer (id, address, name, phone) VALUES (114, '3669 Davis Street', 'Gretchen', '+77072309876');
 INSERT INTO customer (id, address, name, phone) VALUES (115, '1365 Heather Sees Way', 'Ethier', '+77001002340');
 INSERT INTO customer (id, address, name, phone) VALUES (120, '1364 Heather Sees Way', 'Retha', '+77013214567');
+INSERT INTO customer (id, address, name, phone) VALUES (121, '1364 Heather Sees Way', 'Retha', '+77013214567');
+INSERT INTO customer (id, address, name, phone) VALUES (122, '1364 Heather Sees Way', 'Retha', '+77013214567');
 
 create table company
 (
@@ -50,6 +52,12 @@ INSERT INTO package (id, amount, type, name, cost) VALUES (307,1, 'medium', 'Iph
 INSERT INTO package (id, amount, type, name, cost) VALUES (308,35, 'small', 'AirPods', 960 );
 INSERT INTO package (id, amount, type, name, cost) VALUES (309,67, 'small', 'watch', 554 );
 INSERT INTO package (id, amount, type, name, cost) VALUES (300,13, 'big', 'keyboard', 2210 );
+INSERT INTO package (id, amount, type, name, cost) VALUES (310,17, 'big', 'keyboard', 2210 );
+INSERT INTO package (id, amount, type, name, cost) VALUES (311,35, 'big', 'keyboard', 2210 );
+INSERT INTO package (id, amount, type, name, cost) VALUES (312,19, 'small', 'bag', 4750 );
+INSERT INTO package (id, amount, type, name, cost) VALUES (313,78, 'big', 'computer', 4520 );
+INSERT INTO package (id, amount, type, name, cost) VALUES (314,6, 'medium', 'keyboard', 65 );
+
 
 create table account
 (
@@ -137,6 +145,14 @@ INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transpor
 INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (50, 112, 002,306, 906, 'Rail2', '08-01-2021', '13-02-2021' );
 INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (51, 113, 002,307, 907, 'Rail3', '17-09-2020', '25-09-2020' );
 INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (52, 110, 007,308, 908, 'Plane3', '22-10-2021', '01-11-2021' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (53, 111, 007,309, 909, 'Truck1721', '16-12-2019', '25-12-2019' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (54, 117, 007,300, 910, 'Truck1721', '17-12-2019', '26-12-2019' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (55, 119, 005,310, 911, 'Truck1721', '18-08-2020', '29-10-2020' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (56, 118, 011,311, 912, 'Truck1721', '26-09-2020', '02-10-2020' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (57, 114, 011,312, 913, 'Truck1721', '13-01-2021', '17-01-2021' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (58, 115, 007,313, 914, 'Truck1721', '08-08-2021', '19-08-2021' );
+INSERT INTO shipment (id, customer_id, company_id, package_id, bill_id, transport_name,order_date, delivery_date) VALUES (59, 120, 005,314, 915, 'Truck1721', '30-08-2021', '05-09-2021' );
+
 
 
 create table track(
@@ -199,6 +215,45 @@ VALUES (52,'Spain','Kiev','Kazakhstan','Plane3','delivered');
 insert into history(id,location,date) values(52,'Spain','22-10-2021');
 insert into history(id,location,date) values(52,'Kiev','25-10-2021');
 insert into history(id,location,date) values(52,'Kazakhstan','01-11-2021');
+
+INSERT INTO track(track_id,start_loc,current_loc,end_loc,vehicle,status)
+VALUES (53,'Kazakhstan','Turkey','Turkey','Truck1721','on the way');
+insert into history(id,location,date) values(53,'Kazakhstan','16-12-2019');
+insert into history(id,location,date) values(53,'Turkey','17-12-2021');
+
+INSERT INTO track(track_id,start_loc,current_loc,end_loc,vehicle,status)
+VALUES (54,'Kazakhstan','Turkey','Turkey','Truck1721','on the way');
+insert into history(id,location,date) values(53,'Kazakhstan','17-12-2019');
+insert into history(id,location,date) values(53,'Turkey','20-12-2021');
+
+INSERT INTO track(track_id,start_loc,current_loc,end_loc,vehicle,status)
+VALUES (55,'Kazakhstan','Turkey','Turkey','Truck1721','on the way');
+insert into history(id,location,date) values(55,'Kazakhstan','18-08-2020');
+insert into history(id,location,date) values(55,'Turkey','20-08-2020');
+
+INSERT INTO track(track_id, status, vehicle, start_loc, current_loc, end_loc)
+VALUES (56, 'delivered', 'Truck1721', 'USA', 'Turkey', 'Turkey');
+INSERT INTO history(id, date, location) VALUES (56, '26-09-2020', 'USA');
+INSERT INTO history(id, date, location) VALUES (56, '28-09-2020', 'Turkey');
+INSERT INTO history(id, date, location) VALUES (56, '01-10-2020', 'Turkey');
+
+INSERT INTO track(track_id, status, vehicle, start_loc, current_loc, end_loc)
+VALUES (57, 'delivered', 'Truck1721', 'Brazil', 'Africa', 'China');
+INSERT INTO history(id, date, location) VALUES (57, '13-01-2021', 'USA');
+INSERT INTO history(id, date, location) VALUES (57, '15-01-2021', 'Turkey');
+INSERT INTO history(id, date, location) VALUES (57, '16-01-2021', 'Turkey');
+
+INSERT INTO track(track_id, status, vehicle, start_loc, current_loc, end_loc)
+VALUES (58, 'delivered', 'Truck1721', 'Norway', 'Germany', 'Kazakhstan');
+INSERT INTO history(id, date, location) VALUES (58, '08-08-2021', 'USA');
+INSERT INTO history(id, date, location) VALUES (58, '10-08-2021', 'Turkey');
+INSERT INTO history(id, date, location) VALUES (58, '18-08-2021', 'Turkey');
+
+INSERT INTO track(track_id, status, vehicle, start_loc, current_loc, end_loc)
+VALUES (59, 'delivered', 'Truck1721', 'Kazakhstan', 'Kazakhstan', 'Mongolia');
+INSERT INTO history(id, date, location) VALUES (59, '30-08-2021', 'Kazakhstan');
+INSERT INTO history(id, date, location) VALUES (59, '01-09-2021', 'Kazakhstan');
+INSERT INTO history(id, date, location) VALUES (59, '04-09-2021', 'Mongolia');
 
 create table credit_card
 (
@@ -269,12 +324,12 @@ from customer inner join shipment on customer.id = shipment.customer_id
 where shipment.id in (
     select track_id
     from track
-    where vehicle = 'Rail' and status = 'on the way'
+    where vehicle = 'Truck1721' and status = 'on the way'
     );
 
 select track_id, start_loc, end_loc, vehicle
 from track
-where vehicle = 'Truck' and status = 'delivered';
+where vehicle = 'Truck1721' and status = 'delivered';
 
 
 
