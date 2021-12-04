@@ -1,9 +1,9 @@
                                          Project: Package delivery company 
-      from 1 to 261 (create table and insertions)
-      from 263 - 277 (first query task)
-      from 281 - 291 (second query task)
-      from 295 - 309 (3 query task)
-      from 314 - 328 (4 query task)
-      from 329 - 336 (5 query task)
-      from 338 - 343 (6 query task)
+      from 1 to 316 (create table and insertions)
+      from 318 - 332 (first query task)
+      from 336 - 346 (second query task)
+      from 350 - 364 (3 query task)
+      from 369 - 383 (4 query task)
+      from 384 - 391 (5 query task)
+      from 393 - 398 (6 query task)
       
